@@ -1,10 +1,12 @@
 package main;
 
 import apiREST.apiREST_Topic;
+import apiREST.apiREST_Message;
 import entity.Message;
 import subscriber.SubscriberImpl;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Collection;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,7 +131,14 @@ public class ClientSwing {
         String current_topic = it_subscriber.getTopic().getName();
         my_subscriptions_TextArea.append(current_topic + "\n");
         my_subscriptions.put(current_topic, new_subcriber);
-        //¿Also update messages?        
+        //¿Also update messages?
+        
+        Collection<entity.Message> old_messages = apiREST_Message.messagesFrom(it_subscriber.getTopic());        
+        if(old_messages != null){
+            for(entity.Message it_mess: old_messages){
+                messages_TextArea.append(it_mess.getTopic().getName() + ": " + it_mess.getContent() + "\n");                    
+            }
+        }
     }
   }
 
